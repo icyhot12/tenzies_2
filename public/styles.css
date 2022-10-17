@@ -1,5 +1,52 @@
 html, body {
     margin: 0;
     padding: 0;
+    font-family: 'Oswald', sans-serif;
 }
 
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.title {
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+
+.boxes-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2,1fr);
+    gap: 10px 10px;
+}
+
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    width: 60px;
+    height: 60px;
+    border: 2px solid darkgray;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-container > button {
+    font-size: 1.5rem;
+    background-color: white;
+    border: solid 2px darkgray;
+    padding: 5px 20px;
+    border-radius: 5px;
+}
