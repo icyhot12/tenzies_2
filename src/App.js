@@ -5,6 +5,7 @@ import { nanoid } from "nanoid"
 function App() {
 
   const [squares, setSquares] = React.useState(newSquares())
+  const [win, setWin] = React.useState(false)
 
   function newSquares() {
     let tempArray = []
@@ -24,23 +25,46 @@ function App() {
   }
 
   function handleClick(id) {
+    check()
+    
     setSquares(prevSquare => (
       prevSquare.map(element => {
-        return element.id === id ? 
-        {...element, isHeld: !element.isHeld} :
-        element
+        return element.id === id ?
+          { ...element, isHeld: !element.isHeld } :
+          element
       })
     ))
   }
 
+  function check() {
+    let counter = 0
+    let finalValue = squares[0].value
+
+    for (let i = 0; i < 10; i++) {
+      if (squares[i].isHeld === true && squares[i].value === finalValue) {
+        counter++
+      }
+      if (counter === 10) {
+        setWin(true)
+      }
+    }
+    if (win === true) {
+      alert("You win!!!")
+    }
+  }
+
   function handleRoll() {
+
+    check()
+
     setSquares(prevSquare => (
       prevSquare.map(element => {
-        return element.isHeld ? 
-        element :
-        {...element, value: Math.ceil(Math.random() * 6)}
+        return element.isHeld ?
+          element :
+          { ...element, value: Math.ceil(Math.random() * 6) }
       })
     ))
+
   }
 
   const squareElements = squares.map(element => (
@@ -60,7 +84,7 @@ function App() {
         {squareElements}
       </div>
       <div className="btn-container">
-        <button onClick={handleRoll}>Roll</button>
+        <button onClick={handleRoll}>{win ? "Reset" : "Roll"}</button>
       </div>
     </div>
   );
