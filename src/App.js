@@ -7,6 +7,15 @@ function App() {
   const [squares, setSquares] = React.useState(newSquares())
   const [win, setWin] = React.useState(false)
 
+  React.useEffect(() => {
+    const allHeld = squares.every(square => square.isHeld)
+    const firstValue = squares[0].value
+    const allValues = squares.every(square => square.value === firstValue)
+    if(allHeld && allValues) {
+      setWin(true)
+    }
+  }, [squares])
+
   function newSquares() {
     let tempArray = []
 
@@ -25,8 +34,7 @@ function App() {
   }
 
   function handleClick(id) {
-    check()
-    
+
     setSquares(prevSquare => (
       prevSquare.map(element => {
         return element.id === id ?
@@ -36,34 +44,31 @@ function App() {
     ))
   }
 
-  function check() {
-    let counter = 0
-    let finalValue = squares[0].value
-
-    for (let i = 0; i < 10; i++) {
-      if (squares[i].isHeld === true && squares[i].value === finalValue) {
-        counter++
-      }
-      if (counter === 10) {
-        setWin(true)
-      }
-    }
-    if (win === true) {
-      alert("You win!!!")
-    }
-  }
 
   function handleRoll() {
 
-    check()
+    if (win) {
+      setSquares(prevSquare => (
+        prevSquare.map(element => {
+          return {
+            ...element,
+            isHeld: false,
+            value: Math.ceil(Math.random() * 6)
+          }
+        })
+      ))
+      setWin(false)
 
-    setSquares(prevSquare => (
-      prevSquare.map(element => {
-        return element.isHeld ?
-          element :
-          { ...element, value: Math.ceil(Math.random() * 6) }
-      })
-    ))
+    } else {
+      setSquares(prevSquare => (
+        prevSquare.map(element => {
+          return element.isHeld ?
+            element :
+            { ...element, value: Math.ceil(Math.random() * 6) }
+        })
+      ))
+    }
+
 
   }
 
